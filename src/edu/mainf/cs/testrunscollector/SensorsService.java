@@ -46,8 +46,11 @@ public class SensorsService extends Service implements SensorEventListener {
 	private Instances mDataset;
 	private Attribute mClassAttribute;
 	private OnSensorChangedTask mAsyncTask;
-
+	
+	// declared an array blocking queue to maintain ORDER, so that it is not overwhelemed with values from accelerometer in onSensorChanged()
 	private static ArrayBlockingQueue<Double> mAccBuffer;
+	
+	
 	public static final DecimalFormat mdf = new DecimalFormat("#.##");
 
 	@Override
@@ -91,7 +94,7 @@ public class SensorsService extends Service implements SensorEventListener {
 
 		mServiceTaskType = Globals.SERVICE_TASK_TYPE_COLLECT;
 
-		// Create the container for attributes
+		// Initializing a container to store attributes
 		ArrayList<Attribute> allAttr = new ArrayList<Attribute>();
 
 		// Adding FFT coefficient attributes
